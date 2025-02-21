@@ -1,0 +1,13 @@
+services:
+  dash:
+    platform: linux/amd64
+    command: python3 app.py  # Runs app.py inside the container
+    image: kpzik/a2_price_prediction
+    build: 
+      context: ./  
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
+    environment:
+      - HOST=0.0.0.0  # Expose app to external network
+      - PORT=80
+    ports:
+      - 9001:80  # Map port 80 in the container to port 9001 on the host machine

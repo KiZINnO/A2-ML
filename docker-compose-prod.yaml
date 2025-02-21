@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  st124090_a2:
+    container_name: st124090_a2
+    command: python3 app.py  
+    image: kpzik/a2_price_prediction
+    platform: linux/x86_64
+    environment:
+      - HOST=0.0.0.0
+      - PORT=9001
+    ports:
+      - "9001:9001"
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.web-st124090.loadbalancer.server.port=9001
+      - traefik.http.routers.web-st124090.tls=true
+      - traefik.http.routers.web-st124090.rule=Host(`st124090.ml.brain.cs.ait.ac.th`)
+      - traefik.http.routers.web-st124090.tls.certresolver=production
+      - traefik.http.routers.web-st124090.entrypoints=websecure
+    networks:
+      - default
+      - traefik_default
+
+networks:
+  default:
+  traefik_default:
+    external: true
